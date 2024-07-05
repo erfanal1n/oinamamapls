@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: url('https://cdn.discordapp.com/attachments/680833405080174678/1258458711454777464/s21.gif?ex=66881e81&is=6686cd01&hm=e06530de67375e1d5a80490875343e6f89ebf484dd1b2326bebed96b92ff16d6') fixed center/cover;
+            background-color: #00ffff; /* Cyan background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: 'Roboto Condensed', sans-serif;
+            color: #333; /* Dark gray font color */
+            overflow: hidden;
+            text-align: center;
+            position: relative; /* Ensure positioning context */
+        }
+        h1 {
+            font-size: 36px;
+            color: #333; /* Dark gray font color */
+            text-shadow: 2px 2px 5px #00cccc; /* Slight shadow matching background */
+            margin-bottom: 20px;
+        }
+        .hidden {
+            opacity: 0;
+        }
+        .visible {
+            opacity: 1;
+            transition: opacity 0.8s ease-in-out;
+        }
+        .button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            font-family: 'Roboto Condensed', sans-serif;
+            position: relative;
+            overflow: hidden;
+            background-color: transparent;
+            outline: none;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        .button:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+        .yes-button {
+            background-color: #00ffcc;
+            color: #000;
+        }
+        .yes-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+        }
+        .yes-button:hover:before {
+            left: 0;
+        }
+        .no-button {
+            background-color: #ff00ff;
+            color: #000;
+        }
+        .no-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+        }
+        .no-button:hover:before {
+            left: 0;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            margin-top: 30px; /* Increased space between h1 and button row */
+        }
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            animation: float 1s ease-in infinite;
+        }
+        @keyframes float {
+            to {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+        }
+        .gif-container {
+            position: relative;
+            margin-top: 20px; /* Adjusted margin top */
+            z-index: 1;
+            text-align: center; /* Center the GIF horizontally */
+        }
+        .gif-container img {
+            width: 150px; /* Adjusted width of the GIF */
+            height: auto; /* Maintain aspect ratio */
+            display: block;
+            margin: 0 auto; /* Center horizontally */
+        }
+    </style>
+</head>
+<body>
+    <h1>Hey Babee🥺, I love youuuuu So muccchhhhh🖤💖💗!!!</h1>
+    <h1 class="hidden" id="secondLine">Do you love meeeee😭??</h1>
+    <div class="gif-container">
+        <img src="https://cdn.discordapp.com/attachments/680833405080174678/1258449283443855380/output-onlinegiftools.gif?ex=668815ba&is=6686c43a&hm=834e15e76ce3d7bd617316dcc0c842a5211bfa254485a2b1460f9b812bc5f922" alt="Animated GIF">
+    </div>
+    <div class="button-container">
+        <button class="button yes-button" id="yesButton">Yes</button>
+        <button class="button no-button" id="noButton">No</button>
+    </div>
+    <div class="hearts" id="heartsContainer"></div>
+    <script>
+        const secondLine = document.getElementById('secondLine');
+        setTimeout(() => {
+            secondLine.classList.remove('hidden');
+            secondLine.classList.add('visible');
+        }, 800); // Decreased the delay
+
+        const noButton = document.getElementById('noButton');
+        const moveNoButton = () => {
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const buttonWidth = noButton.offsetWidth;
+            const buttonHeight = noButton.offsetHeight;
+            const x = Math.random() * (viewportWidth / 3 - buttonWidth);
+            const y = Math.random() * (viewportHeight / 3 - buttonHeight);
+            noButton.style.transform = `translate(${x}px, ${y}px)`;
+            noButton.style.position = 'absolute'; // Ensure it's always positioned
+        };
+
+        noButton.addEventListener('mouseover', moveNoButton);
+
+        const yesButton = document.getElementById('yesButton');
+        const heartsContainer = document.getElementById('heartsContainer');
+        let heartInterval;
+        let heartTimeout;
+        const emojis = ['🖤', '💖', '💗']; // Changed emojis
+
+        let emojiCount = 0; // Initial emoji count
+
+        yesButton.addEventListener('mouseover', () => {
+            // Flood more emojis proportionally
+            heartInterval = setInterval(() => {
+                if (emojiCount < 30) { // Limit number of emojis
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    heart.style.left = `${Math.random() * 100}%`;
+                    heart.style.top = `${Math.random() * 100}%`;
+                    heartsContainer.appendChild(heart);
+                    emojiCount++;
+                }
+            }, 200); // Interval for adding more emojis
+
+            // Clear emojis after some time
+            setTimeout(() => {
+                heartTimeout = setTimeout(() => {
+                    heartsContainer.innerHTML = ''; // Clear hearts after some time
+                    emojiCount = 0; // Reset emoji count
+                }, 8000); // Delay before clearing emojis
+            }, 500); // Delay before starting to clear hearts
+        });
+
+        yesButton.addEventListener('mouseout', () => {
+            clearInterval(heartInterval);
+            clearTimeout(heartTimeout);
+        });
+
+        yesButton.addEventListener('click', () => {
+            // Add fancy loading animation here
+            window.location.href = 'surprise.html'; // Redirect to surprise.html
+        });
+
+        // Ensure the "No" button is positioned initially close to the "Yes" button
+        window.addEventListener('load', () => {
+            noButton.style.position = 'static';
+        });
+    </script>
+</body>
+</html>
+
